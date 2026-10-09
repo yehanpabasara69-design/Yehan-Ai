@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b18">
+<meta name="description" content="Yehan Assistant AI — Sinhala voice and chat assistant.">
+<title>Yehan Assistant AI</title>
+<style>
+:root{--bg:#070a14;--panel:#10162a;--line:#293252;--blue:#65d8ff;--violet:#9b7bff;--text:#f3f6ff;--muted:#a7b1ce}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 50% 5%,#1a2050 0,#090d1b 42%,#050711 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+button,input{font:inherit}button{cursor:pointer}
+.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(18px,5vw,70px);border-bottom:1px solid #ffffff12;background:#080b18c9;backdrop-filter:blur(18px);position:sticky;top:0;z-index:10}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}.brand-mark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--violet));color:#080b18;font-size:23px;box-shadow:0 0 25px #7c91ff55}
+.status{color:#a8ffd2;font-size:12px;border:1px solid #56e6a744;background:#56e6a711;padding:8px 12px;border-radius:30px}
+main{max-width:1120px;margin:auto;padding:44px 20px 60px}.hero{text-align:center;margin:12px auto 32px;max-width:760px}.eyebrow{color:var(--blue);font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:800}.hero h1{font-size:clamp(34px,6vw,64px);line-height:1.06;margin:14px 0;background:linear-gradient(90deg,#fff,#a9dfff 50%,#c5aaff);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{color:var(--muted);line-height:1.7;margin:0 auto;max-width:620px}
+.layout{display:grid;grid-template-columns: minmax(250px,.82fr) minmax(0,1.4fr);gap:22px;align-items:stretch}.panel{background:linear-gradient(145deg,#11182cdd,#0b1020f2);border:1px solid var(--line);border-radius:26px;box-shadow:0 20px 70px #0005;overflow:hidden}
+.robot-panel{padding:25px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:510px}.robot-stage{width:min(250px,70vw);aspect-ratio:1;position:relative;display:grid;place-items:center;margin:4px auto 20px}.orbit{position:absolute;inset:8px;border:1px solid #7a9dff55;border-radius:50%;animation:spin 18s linear infinite}.orbit:before,.orbit:after{content:"";position:absolute;width:8px;height:8px;background:var(--blue);border-radius:50%;box-shadow:0 0 16px var(--blue)}.orbit:before{top:22px;left:25px}.orbit:after{bottom:16px;right:25px;background:var(--violet);box-shadow:0 0 16px var(--violet)}.orbit.two{inset:25px;border-style:dashed;animation-direction:reverse;animation-duration:24s}
+.robot{width:155px;height:155px;border-radius:44px;background:linear-gradient(145deg,#243f68,#12172f 70%);border:2px solid #83dfff99;box-shadow:0 0 35px #4fcaff33,inset 0 0 30px #7c8aff22;position:relative;animation:float 4s ease-in-out infinite;transition:.3s}.robot:before{content:"";position:absolute;left:20px;right:20px;top:38px;height:54px;border-radius:18px;background:#070d1d;border:1px solid #6edfff77;box-shadow:inset 0 0 20px #44caff20}.eye{position:absolute;z-index:2;top:57px;width:16px;height:19px;border-radius:8px;background:var(--blue);box-shadow:0 0 16px var(--blue);animation:blink 5s infinite}.eye.left{left:47px}.eye.right{right:47px}.mouth{position:absolute;z-index:2;left:58px;top:104px;width:38px;height:7px;border-radius:8px;background:var(--violet);box-shadow:0 0 12px var(--violet)}.robot.talking .mouth{height:17px;top:99px;border-radius:40%;animation:talk .25s infinite alternate}.robot.talking{box-shadow:0 0 55px #65d8ff66,inset 0 0 30px #7c8aff44}.robot-name{font-size:22px;font-weight:800;margin:4px}.robot-caption{font-size:13px;color:var(--muted);margin:7px 0 18px}.voice-btn{border:0;border-radius:15px;padding:13px 20px;background:linear-gradient(100deg,var(--blue),#9a8bff);color:#08101c;font-weight:800;box-shadow:0 8px 25px #6d8dff22;transition:transform .2s}.voice-btn:hover{transform:translateY(-2px)}.voice-btn:disabled{opacity:.55;cursor:not-allowed}.hint{font-size:11px;color:#8793b5;line-height:1.6;margin-top:15px}
+.chat-panel{min-height:510px;display:flex;flex-direction:column}.chat-head{padding:20px 22px;border-bottom:1px solid #ffffff12;display:flex;align-items:center;justify-content:space-between}.chat-head strong{font-size:16px}.chat-head span{font-size:12px;color:var(--muted)}.messages{padding:20px;display:flex;flex-direction:column;gap:14px;flex:1;min-height:300px;max-height:430px;overflow:auto;scroll-behavior:smooth}.msg{max-width:88%;padding:13px 15px;border-radius:17px;line-height:1.55;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere;animation:appear .25s ease}.msg.ai{align-self:flex-start;background:#18223b;border:1px solid #33446b;border-bottom-left-radius:5px}.msg.user{align-self:flex-end;background:linear-gradient(135deg,#24688a,#5b4e9d);border-bottom-right-radius:5px}.msg small{display:block;font-size:10px;opacity:.65;margin-bottom:5px}.quick{padding:0 18px 14px;display:flex;gap:8px;flex-wrap:wrap}.quick button{background:#141d33;border:1px solid #303c5b;color:#cbd8f6;border-radius:20px;padding:8px 11px;font-size:12px}.quick button:hover{border-color:var(--blue)}.composer{display:flex;gap:9px;padding:15px;border-top:1px solid #ffffff12}.composer input{min-width:0;flex:1;background:#080d1b;border:1px solid #303b5b;border-radius:14px;color:white;padding:14px;outline:none}.composer input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #65d8ff12}.send{border:0;border-radius:14px;background:var(--blue);color:#06111c;padding:0 18px;font-weight:900}.tools{display:flex;justify-content:space-between;align-items:center;padding:0 18px 15px;color:#8793b5;font-size:11px}.tools button{background:none;border:0;color:#aab8da}.footer{text-align:center;color:#687493;font-size:12px;margin-top:25px;line-height:1.7}.footer a{color:var(--blue)}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes blink{0%,46%,50%,100%{transform:scaleY(1)}48%{transform:scaleY(.1)}}@keyframes talk{from{transform:scaleY(.5)}to{transform:scaleY(1.2)}}@keyframes appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.robot-panel{min-height:360px;padding:20px}.robot-stage{width:190px}.robot{transform:scale(.88)}.chat-panel{min-height:520px}.messages{max-height:390px}.topbar{height:65px}.status{font-size:10px;padding:7px 9px}main{padding-top:25px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">✦</div><span>Yehan Assistant <span style="color:#77dfff">AI</span></span></div>
+  <div class="status">● ONLINE INTERFACE</div>
+</header>
+<main>
+  <section class="hero">
+    <div class="eyebrow">YOUR PERSONAL AI COMPANION</div>
+    <h1>හෙලෝ! මම Yehan AI</h1>
+    <p>ඔයාට සිංහලෙන් හෝ English වලින් මාව අමතන්න පුළුවන්. ප්‍රශ්නයක් ටයිප් කරන්න, නැත්නම් microphone එක භාවිතා කරලා කතා කරන්න.</p>
+  </section>
+  <section class="layout">
+    <aside class="panel robot-panel">
+      <div class="robot-stage"><div class="orbit"></div><div class="orbit two"></div>
+        <div class="robot" id="robot" aria-label="Animated AI robot"><i class="eye left"></i><i class="eye right"></i><i class="mouth"></i></div>
+      </div>
+      <div class="robot-name">Yehan Assistant</div>
+      <div class="robot-caption" id="robotCaption">ඔයාගේ AI සහායකයා සූදානම් ✨</div>
+      <button class="voice-btn" id="voiceBtn">🎙️ සිංහලෙන් කතා කරන්න</button>
+      <div class="hint">Microphone භාවිතයට browser permission අවශ්‍යයි.<br>හඬ හඳුනාගැනීම browser එක අනුව වෙනස් විය හැක.</div>
+    </aside>
+    <section class="panel chat-panel">
+      <div class="chat-head"><div><strong>AI Chat</strong><br><span>සිංහල · English · Voice</span></div><span id="chatStatus">Ready</span></div>
+      <div class="messages" id="messages" aria-live="polite">
+        <div class="msg ai"><small>YEHAN AI</small>ආයුබෝවන්! 👋 මම Yehan Assistant AI. ඔයාට අද මගෙන් මොනවද දැනගන්න ඕනේ?</div>
+      </div>
+      <div class="quick">
+        <button data-q="ඔයාට කරන්න පුළුවන් දේවල් මොනවාද?">ඔයාට මොනවද පුළුවන්?</button>
+        <button data-q="ශ්‍රී ලංකාව ගැන කියන්න">ශ්‍රී ලංකාව</button>
+        <button data-q="HTML කියන්නේ මොකක්ද?">HTML ගැන</button>
+        <button data-q="මට උදව් කරන්න">මට උදව් කරන්න</button>
+      </div>
+      <form class="composer" id="chatForm"><input id="userInput" autocomplete="off" placeholder="ඔයාගේ ප්‍රශ්නය මෙතැන ලියන්න..." aria-label="ඔබගේ පණිවිඩය"><button class="send" type="submit">➤</button></form>
+      <div class="tools"><span id="modeText">Demo mode · No API key required</span><button id="clearBtn" type="button">Chat මකන්න ↺</button></div>
+    </section>
+  </section>
+  <div class="footer">Yehan Assistant AI · Built with HTML, CSS & JavaScript<br>සටහන: දැනට මෙය demo assistant එකකි. සැබෑ AI පිළිතුරු ලබාගැනීමට ආරක්ෂිත AI API backend එකක් සම්බන්ධ කරන්න.</div>
+</main>
+<script>
+/*
+  REAL AI SETUP:
+  Set AI_ENDPOINT to your own secure backend URL.
+  The backend should accept POST JSON {message:"..."} and return JSON {reply:"..."}.
+  Never place a private AI API key in this public file.
+*/
+const AI_ENDPOINT = ""; // Example: "https://your-backend.example.com/api/chat"
+const messages = document.getElementById('messages');
+const input = document.getElementById('userInput');
+const robot = document.getElementById('robot');
+const caption = document.getElementById('robotCaption');
+const statusEl = document.getElementById('chatStatus');
+const voiceBtn = document.getElementById('voiceBtn');
+let recognition = null;
+
+function addMessage(text, who='ai'){
+  const div=document.createElement('div'); div.className='msg '+who;
+  const label=document.createElement('small'); label.textContent=who==='ai'?'YEHAN AI':'ඔයා';
+  const body=document.createElement('div'); body.textContent=text;
+  div.append(label,body); messages.appendChild(div); messages.scrollTop=messages.scrollHeight; return div;
+}
+function demoAnswer(q){
+ const s=q.toLowerCase();
+ if(/hello|hi\b|hey|ආයුබෝවන්|හායි|හෙලෝ/.test(s)) return 'ආයුබෝවන්! 😊 මම Yehan Assistant AI. ඔයාට කොහොමද උදව් කරන්න ඕනේ?';
+ if(/ඔයා කවුද|who are you|ඔබ කවුද/.test(s)) return 'මම Yehan Assistant AI — සිංහලෙන් සහ English වලින් කතාබහ කරන්න හදපු AI assistant demo එකක්. සැබෑ AI model එකක් සම්බන්ධ කළාම තවත් බොහෝ ප්‍රශ්නවලට පිළිතුරු දෙන්න පුළුවන්.';
+ if(/කරන්න පුළුවන්|පුළුවන් දේ|capabilit|what can you do/.test(s)) return 'මට demo එකේදී මූලික ප්‍රශ්නවලට පිළිතුරු දෙන්න, කතාබහ කරන්න, සිංහල හඬ input/output උත්සාහ කරන්න පුළුවන්. ඕනෑම මාතෘකාවක් ගැන බුද්ධිමත් පිළිතුරු ලබාගැනීමට AI API එකක් සම්බන්ධ කළ යුතුයි.';
+ if(/html/.test(s)) return 'HTML කියන්නේ වෙබ් පිටුවක ව්‍යුහය සකස් කිරීමට භාවිතා කරන markup language එකක්. CSS මගින් design එකත් JavaScript මගින් interactions සහ functionality එකත් එකතු කරනවා.';
+ if(/ශ්‍රී ලංකා|sri lanka|ලංකාව/.test(s)) return 'ශ්‍රී ලංකාව දකුණු ආසියාවේ ඉන්දියානු සාගරයේ පිහිටි දූපත් රාජ්‍යයක්. අගනුවර ශ්‍රී ජයවර්ධනපුර කෝට්ටේ වන අතර කොළඹ ප්‍රධාන වාණිජ නගරයයි.';
+ if(/උදව්|help/.test(s)) return 'හරි, මම උදව් කරන්නම්! 😊 ඔයාට අවශ්‍ය දේ ටිකක් පැහැදිලිව ලියන්න. උදාහරණයක් ලෙස website code, English translation, study help වගේ දෙයක් අහන්න පුළුවන්.';
+ if(/ස්තුති|thank/.test(s)) return 'ඔයාට සාදරයෙන් පිළිගන්නවා! 😊 තව මොනවාහරි ඕනේ නම් අහන්න.';
+ if(/වෙලාව|time/.test(s)) return 'මට දැනට live clock/weather වැනි දත්ත ලබාගැනීමට සම්බන්ධතාවක් නැහැ. ඔයාගේ device එකේ clock එක බලන්න.';
+ return 'ඔයාගේ ප්‍රශ්නය ලැබුණා! 😊 මේ website එක දැනට demo mode එකේ නිසා මට සීමිතව පිළිතුරු දෙන්න පුළුවන්. ඕනෑම ප්‍රශ්නයකට වඩා හොඳ පිළිතුරු ලබාගැනීමට secure backend එකකින් සැබෑ AI API එකක් සම්බන්ධ කරන්න.';
+}
+async function getAnswer(q){
+ if(!AI_ENDPOINT) return demoAnswer(q);
+ const res=await fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:q})});
+ if(!res.ok) throw new Error('AI service unavailable');
+ const data=await res.json(); if(!data.reply) throw new Error('Invalid response'); return data.reply;
+}
+function speak(text){
+ if(!('speechSynthesis' in window)) return;
+ window.speechSynthesis.cancel();
+ const utter=new SpeechSynthesisUtterance(text); utter.lang=/[අ-ෆ]/.test(text)?'si-LK':'en-US'; utter.rate=.94;
+ const voices=window.speechSynthesis.getVoices();
+ const match=voices.find(v=>v.lang.toLowerCase().startsWith('si'));
+ if(match) utter.voice=match;
+ utter.onstart=()=>{robot.classList.add('talking');caption.textContent='මම පිළිතුරු දෙනවා...'};
+ utter.onend=()=>{robot.classList.remove('talking');caption.textContent='ඔයාගේ AI සහායකයා සූදානම් ✨'};
+ window.speechSynthesis.speak(utter);
+}
+async function sendQuestion(q){
+ q=q.trim(); if(!q) return; addMessage(q,'user'); input.value=''; statusEl.textContent='Thinking…';
+ try{const a=await getAnswer(q);addMessage(a,'ai');statusEl.textContent='Ready';}
+ catch(e){addMessage('දැනට AI සේවාවට සම්බන්ධ වීමට බැරි වුණා. Backend URL සහ service එක පරීක්ෂා කරන්න.','ai');statusEl.textContent='Connection issue';}
+}
+document.getElementById('chatForm').addEventListener('submit',e=>{e.preventDefault();sendQuestion(input.value)});
+document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>sendQuestion(b.dataset.q)));
+document.getElementById('clearBtn').addEventListener('click',()=>{messages.replaceChildren();addMessage('ආයුබෝවන්! 👋 මම Yehan Assistant AI. ඔයාට මොනවද දැනගන්න ඕනේ?');});
+voiceBtn.addEventListener('click',()=>{
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SR){addMessage('මේ browser එකේ voice recognition support නැහැ. Chrome browser එකෙන් උත්සාහ කරන්න, නැත්නම් ප්‍රශ්නය ටයිප් කරන්න.');return;}
+ if(recognition){try{recognition.stop()}catch(e){}}
+ recognition=new SR();recognition.lang='si-LK';recognition.interimResults=false;recognition.maxAlternatives=1;
+ recognition.onstart=()=>{voiceBtn.textContent='🔴 අහගෙන ඉන්නවා...';caption.textContent='කතා කරන්න, මම අහගෙන ඉන්නවා';statusEl.textContent='Listening…'};
+ recognition.onresult=e=>{const transcript=e.results[0][0].transcript;input.value=transcript;sendQuestion(transcript)};
+ recognition.onerror=()=>{addMessage('හඬ හඳුනාගැනීමට නොහැකි වුණා. Microphone permission පරීක්ෂා කර නැවත උත්සාහ කරන්න.');};
+ recognition.onend=()=>{voiceBtn.textContent='🎙️ සිංහලෙන් කතා කරන්න';caption.textContent='ඔයාගේ AI සහායකයා සූදානම් ✨';statusEl.textContent='Ready'};
+ recognition.start();
+});
+</script>
+</body>
+</html>
